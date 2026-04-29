@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://dvcuch78jqox2"]
+
+[ext_resource type="Script" uid="uid://cmdevmhnvfkkw" path="res://scripts/PanelPadres.gd" id="1_gg3xy"]
+
+[node name="PanelPadres" type="Control" unique_id=1572553005]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gg3xy")
+
+[node name="Fondo" type="ColorRect" parent="." unique_id=1871081089]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.972549, 0.6509804, 1)
+
+[node name="ContenedorPrincipal" type="VBoxContainer" parent="." unique_id=1962156019]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="Titulo" type="Label" parent="ContenedorPrincipal" unique_id=1706102493]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.14509805, 0.25490198, 0.36862746, 1)
+theme_override_font_sizes/font_size = 48
+text = "Panel de Progreso y Ajustes"
+horizontal_alignment = 1
+
+[node name="LblEstrellas" type="Label" parent="ContenedorPrincipal" unique_id=352579802]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.14509805, 0.25490198, 0.36862746, 1)
+theme_override_font_sizes/font_size = 36
+text = "Estrellas Totales: 0"
+
+[node name="LblTiempo" type="Label" parent="ContenedorPrincipal" unique_id=1072079113]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.14509805, 0.25490198, 0.36862746, 1)
+theme_override_font_sizes/font_size = 36
+text = "Tiempo Jugado: 0s"
+
+[node name="BtnBilingue" type="CheckButton" parent="ContenedorPrincipal" unique_id=327041865]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.24705882, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Activar Modo Bilingue (Ingles)"
+
+[node name="BtnVolver" type="Button" parent="." unique_id=960314971]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 32.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 24
+text = "Volver al Menu"

@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://7dmgf6gih5fj"]
+
+[ext_resource type="Script" uid="uid://denhcnmbkcfuh" path="res://scripts/MenuPrincipal.gd" id="1_be4aw"]
+[ext_resource type="PackedScene" uid="uid://cne061xj7t0vt" path="res://scenes/entities/Lumi.tscn" id="1_v6gu7"]
+
+[node name="MenuPrincipal" type="Control" unique_id=695539647]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_be4aw")
+
+[node name="Fondo" type="ColorRect" parent="." unique_id=786307151]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.58431375, 0.84705883, 1, 1)
+
+[node name="ContenedorPrincipal" type="VBoxContainer" parent="." unique_id=697401877]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+
+[node name="Titulo" type="Label" parent="ContenedorPrincipal" unique_id=9655505]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "PequeExploradores"
+horizontal_alignment = 1
+
+[node name="BtnJugar" type="Button" parent="ContenedorPrincipal" unique_id=951295380]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Jugar"
+
+[node name="BtnPadres" type="Button" parent="ContenedorPrincipal" unique_id=1564991030]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Para Padres"
+
+[node name="Lumi" parent="." unique_id=1879676224 instance=ExtResource("1_v6gu7")]
+position = Vector2(135, 570)

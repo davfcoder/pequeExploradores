@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://dymj0gmt5i2hb"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/ElementoEducativo.gd" id="1_kp4u8"]
+
+[resource]
+script = ExtResource("1_kp4u8")
+nombre_id = "rojo"
+nombre_mostrar_es = "Rojo"
+nombre_mostrar_en = "Rojo"
+valor_asociado = Color(1, 0, 0, 1)
+metadata/_custom_type_script = "uid://p6m7i0bq70h1"
