@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://dr05ie6uq0h4l"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_e85wv"]
+[ext_resource type="Texture2D" uid="uid://fdxpgxfmtto5" path="res://assets/images/animales/siluetas/siluetaLobo.png" id="2_6kspw"]
+[ext_resource type="Texture2D" uid="uid://ydi062q7thwn" path="res://assets/images/animales/lobo.png" id="2_765o0"]
+[ext_resource type="Texture2D" uid="uid://b7wxc30grehax" path="res://assets/images/animales/habitats/habitatLobo.png" id="2_b5p4k"]
+
+[resource]
+script = ExtResource("1_e85wv")
+nombre_id = "lobo"
+nombre_mostrar_es = "Lobo"
+nombre_mostrar_en = "Wolf"
+textura_visual = ExtResource("2_765o0")
+textura_silueta = ExtResource("2_6kspw")
+textura_habitat = ExtResource("2_b5p4k")
+categoria = "animales"
+valor_asociado = null

@@ -1,6 +1,17 @@
 [gd_scene format=3 uid="uid://d4lstiu3jkf6a"]
 
-[ext_resource type="Script" uid="uid://bieho7d4gdcje" path="res://scripts/PasarelaPadres.gd" id="1_ugy30"]
+[ext_resource type="Script" uid="uid://bieho7d4gdcje" path="res://scripts/controllers/PasarelaPadres.gd" id="1_ugy30"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugy30"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [node name="PasarelaPadres" type="Control" unique_id=380211049]
 layout_mode = 3
@@ -18,9 +29,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.14509805, 0.25490198, 0.36862746, 1)
+color = Color(0.11764706, 0.1882353, 0.3137255, 1)
 
 [node name="PanelCentral" type="PanelContainer" parent="." unique_id=1453252157]
+custom_minimum_size = Vector2(640, 360)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -33,33 +45,37 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ugy30")
 
 [node name="Contenedor" type="VBoxContainer" parent="PanelCentral" unique_id=981169015]
 layout_mode = 2
 theme_override_constants/separation = 24
+alignment = 1
 
 [node name="Instruccion" type="Label" parent="PanelCentral/Contenedor" unique_id=71027650]
+custom_minimum_size = Vector2(640, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Para acceder, el resultado de 3 x 2 es:"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="InputCodigo" type="LineEdit" parent="PanelCentral/Contenedor" unique_id=790497393]
-custom_minimum_size = Vector2(100, 80)
+custom_minimum_size = Vector2(400, 60)
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
 alignment = 1
-max_length = 1
 
 [node name="BtnValidar" type="Button" parent="PanelCentral/Contenedor" unique_id=206242259]
+custom_minimum_size = Vector2(300, 70)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Validar"
 
 [node name="BtnVolver" type="Button" parent="." unique_id=287702386]
 layout_mode = 1
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 32.0
-offset_bottom = 32.0
+offset_left = 50.0
+offset_top = 40.0
+offset_right = 250.0
+offset_bottom = 95.0
+theme_override_font_sizes/font_size = 24
 text = "Volver al Menu."

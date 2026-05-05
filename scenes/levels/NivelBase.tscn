@@ -1,10 +1,8 @@
 [gd_scene format=3 uid="uid://d1068ndn3m47s"]
 
-[ext_resource type="Script" uid="uid://doufgmbdjm5bq" path="res://scripts/NivelBase.gd" id="1_w7qmx"]
+[ext_resource type="Script" uid="uid://doufgmbdjm5bq" path="res://scripts/controllers/NivelBase.gd" id="1_w7qmx"]
 [ext_resource type="PackedScene" uid="uid://cne061xj7t0vt" path="res://scenes/entities/Lumi.tscn" id="1_xjbic"]
-[ext_resource type="Resource" uid="uid://dymj0gmt5i2hb" path="res://data/rojo.tres" id="2_qher6"]
-[ext_resource type="Resource" uid="uid://cnpmuxmerh18j" path="res://data/azul.tres" id="3_i0wsr"]
-[ext_resource type="Resource" uid="uid://xty0usqevuoy" path="res://data/verde.tres" id="4_hev8c"]
+[ext_resource type="Texture2D" uid="uid://b7sxvgov01t0v" path="res://assets/fondo_colores.png" id="5_i0wsr"]
 
 [node name="NivelBase" type="Control" unique_id=983590949]
 layout_mode = 3
@@ -14,73 +12,68 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w7qmx")
-recursos_colores = Array[Resource]([ExtResource("2_qher6"), ExtResource("3_i0wsr"), ExtResource("4_hev8c")])
 
-[node name="Fondo" type="ColorRect" parent="." unique_id=1246999995]
+[node name="FondoTextura" type="TextureRect" parent="." unique_id=1602528256]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.91764706, 1, 0.9490196, 1)
+texture = ExtResource("5_i0wsr")
+expand_mode = 1
 
-[node name="HUD" type="HBoxContainer" parent="." unique_id=917268761]
-custom_minimum_size = Vector2(0, 60)
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 24.0
-offset_bottom = 84.0
-grow_horizontal = 2
-theme_override_constants/separation = 40
+[node name="HUD" type="CanvasLayer" parent="." unique_id=867317497]
 
-[node name="BtnVolver" type="Button" parent="HUD" unique_id=244922504]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "← Salir	"
+[node name="BtnVolver" type="Button" parent="HUD" unique_id=1143408943]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 140.0
+offset_bottom = 65.0
+text = "Salir"
 
-[node name="LblTituloMundo" type="Label" parent="HUD" unique_id=2012542195]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.14509805, 0.25490198, 0.36862746, 1)
-theme_override_font_sizes/font_size = 42
-text = "Mundo"
-
-[node name="LblEstrellas" type="Label" parent="HUD" unique_id=1448237422]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.14509805, 0.25490198, 0.36862746, 1)
-theme_override_font_sizes/font_size = 40
-text = "⭐ 0"
-
-[node name="InstruccionText" type="Label" parent="." unique_id=509857664]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 120.0
-offset_bottom = 143.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0.14509805, 0.25490198, 0.36862746, 1)
-theme_override_font_sizes/font_size = 48
-text = "Toca el color correcto"
-horizontal_alignment = 1
-
-[node name="ZonaJuego" type="HBoxContainer" parent="." unique_id=787859180]
-layout_mode = 1
-anchors_preset = 8
+[node name="LblTitulo" type="Label" parent="HUD" unique_id=1772434960]
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -90.0
+offset_top = 20.0
+offset_right = 90.0
+offset_bottom = 70.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LblEstrellas" type="Label" parent="HUD" unique_id=1203528473]
+offset_left = 1050.0
+offset_top = 20.0
+offset_right = 1220.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 30
+text = "⭐ 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Instruccion" type="Label" parent="HUD" unique_id=1831776996]
+offset_left = 90.0
+offset_top = 82.0
+offset_right = 1190.0
+offset_bottom = 172.0
+theme_override_colors/font_color = Color(0.14509805, 0.25490198, 0.36862746, 1)
+theme_override_font_sizes/font_size = 34
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ZonaJuego" type="Control" parent="." unique_id=1067948802]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 80.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 30
-alignment = 1
 
 [node name="Lumi" parent="." unique_id=1879676224 instance=ExtResource("1_xjbic")]
-position = Vector2(135, 570)
+position = Vector2(150, 560)
+scale = Vector2(0.2, 0.2)

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://tpawuym3u2cu"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_8riyp"]
+[ext_resource type="Texture2D" uid="uid://bmfcrfkc6do5g" path="res://assets/images/animales/raton.png" id="2_7o05e"]
+[ext_resource type="Texture2D" uid="uid://cmiim7m4y0w0l" path="res://assets/images/animales/habitats/habitatRaton.png" id="2_jrxpq"]
+[ext_resource type="Texture2D" uid="uid://ihrm8j166yu" path="res://assets/images/animales/siluetas/siluetaRaton.png" id="2_ub3sm"]
+
+[resource]
+script = ExtResource("1_8riyp")
+nombre_id = "raton"
+nombre_mostrar_es = "Ratón"
+nombre_mostrar_en = "Mouse"
+textura_visual = ExtResource("2_7o05e")
+textura_silueta = ExtResource("2_ub3sm")
+textura_habitat = ExtResource("2_jrxpq")
+categoria = "animales"
+valor_asociado = null

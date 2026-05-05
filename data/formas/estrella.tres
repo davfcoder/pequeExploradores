@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://odqf4ujn1ixe"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_sn7e6"]
+[ext_resource type="Texture2D" uid="uid://b6swx7f3i0ups" path="res://assets/images/formas/estrella.png" id="2_weom1"]
+
+[resource]
+script = ExtResource("1_sn7e6")
+nombre_id = "estrella"
+nombre_mostrar_es = "Estrella"
+nombre_mostrar_en = "Star"
+textura_visual = ExtResource("2_weom1")
+categoria = "formas"
+valor_asociado = null

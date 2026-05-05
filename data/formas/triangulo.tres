@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://dvhcswj087rg6"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_hqdr6"]
+[ext_resource type="Texture2D" uid="uid://dcrpnhr1g87xi" path="res://assets/images/formas/triangulo.png" id="2_hm02q"]
+
+[resource]
+script = ExtResource("1_hqdr6")
+nombre_id = "triangulo"
+nombre_mostrar_es = "Triángulo"
+nombre_mostrar_en = "Triangle"
+textura_visual = ExtResource("2_hm02q")
+categoria = "formas"
+valor_asociado = null

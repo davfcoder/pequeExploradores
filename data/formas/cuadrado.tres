@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://gctff7qs07ue"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_hms3d"]
+[ext_resource type="Texture2D" uid="uid://dl6gk8x4qomkh" path="res://assets/images/formas/cuadrado.png" id="2_pnwgq"]
+
+[resource]
+script = ExtResource("1_hms3d")
+nombre_id = "cuadrado"
+nombre_mostrar_es = "Cuadrado"
+nombre_mostrar_en = "Square"
+textura_visual = ExtResource("2_pnwgq")
+categoria = "formas"
+valor_asociado = null

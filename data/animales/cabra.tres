@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://sg68yrxrlj3w"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_ysws1"]
+[ext_resource type="Texture2D" uid="uid://fmu347mik16" path="res://assets/images/animales/siluetas/siluetaCabra.png" id="2_dcntt"]
+[ext_resource type="Texture2D" uid="uid://dtjdmgbxj7kfy" path="res://assets/images/animales/habitats/habitatCabra.png" id="2_kere4"]
+[ext_resource type="Texture2D" uid="uid://wuoilxoaqktq" path="res://assets/images/animales/cabra.png" id="2_xbt7r"]
+
+[resource]
+script = ExtResource("1_ysws1")
+nombre_id = "cabra"
+nombre_mostrar_es = "Cabra"
+nombre_mostrar_en = "Goat"
+textura_visual = ExtResource("2_xbt7r")
+textura_silueta = ExtResource("2_dcntt")
+textura_habitat = ExtResource("2_kere4")
+categoria = "animales"
+valor_asociado = null

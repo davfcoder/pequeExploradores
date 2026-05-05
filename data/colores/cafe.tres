@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://0kba4r86y5ch"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_4a72g"]
+
+[resource]
+script = ExtResource("1_4a72g")
+nombre_id = "cafe"
+nombre_mostrar_es = "Café"
+nombre_mostrar_en = "Brown"
+valor_asociado = Color(0.55, 0.27, 0.07, 1)

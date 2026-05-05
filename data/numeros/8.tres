@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://csapmv5tk135c"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_nikpi"]
+[ext_resource type="Texture2D" uid="uid://pkdgdj2nh5hk" path="res://assets/images/numeros/8.png" id="2_2m5rb"]
+
+[resource]
+script = ExtResource("1_nikpi")
+nombre_id = "8"
+nombre_mostrar_es = "Ocho"
+nombre_mostrar_en = "Eight"
+textura_visual = ExtResource("2_2m5rb")
+categoria = "numeros"
+valor_asociado = null

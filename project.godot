@@ -20,7 +20,12 @@ general/text_to_speech=true
 
 [autoload]
 
-GameManager="*uid://c285c8spuehi4"
+GameState="*uid://b2ivx18ux72lc"
+SaveSystem="*uid://ccoormnot1o1r"
+FatigaManager="*uid://be77kmqk3sqdl"
+AudioManager="*uid://ccj6ge2mof8n0"
+UIFont="*uid://dbxmgm3j1b51d"
+WindowManager="*uid://dlvea0pifvm6w"
 
 [display]
 

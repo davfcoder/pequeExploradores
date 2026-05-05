@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://td5vl52k14pn"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_8jc2p"]
+[ext_resource type="Texture2D" uid="uid://c0r0wyu1pn7af" path="res://assets/images/formas/corazon.png" id="2_nuvpg"]
+
+[resource]
+script = ExtResource("1_8jc2p")
+nombre_id = "corazon"
+nombre_mostrar_es = "Corazón"
+nombre_mostrar_en = "Heart"
+textura_visual = ExtResource("2_nuvpg")
+categoria = "formas"
+valor_asociado = null

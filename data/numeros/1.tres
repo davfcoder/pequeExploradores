@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://muci56n524rt"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_og7nl"]
+[ext_resource type="Texture2D" uid="uid://dlc5glw7yi5lq" path="res://assets/images/numeros/1.png" id="2_xigx8"]
+
+[resource]
+script = ExtResource("1_og7nl")
+nombre_id = "1"
+nombre_mostrar_es = "Uno"
+nombre_mostrar_en = "One"
+textura_visual = ExtResource("2_xigx8")
+categoria = "numeros"
+valor_asociado = null

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://cucdti3nw11e"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_bh8jk"]
+
+[resource]
+script = ExtResource("1_bh8jk")
+nombre_id = "morado"
+nombre_mostrar_es = "Morado"
+nombre_mostrar_en = "Purple"
+valor_asociado = Color(0.58, 0.12, 0.82, 1)

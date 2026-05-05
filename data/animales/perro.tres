@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://g0u6of151xq7"]
+
+[ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_dhuj4"]
+[ext_resource type="Texture2D" uid="uid://dv7slsy64dblk" path="res://assets/images/animales/siluetas/siluetaPerro.png" id="2_06add"]
+[ext_resource type="Texture2D" uid="uid://cil0a1dgs8rqx" path="res://assets/images/animales/perro.png" id="2_dh0vf"]
+[ext_resource type="Texture2D" uid="uid://j4qgdvhgx0j0" path="res://assets/images/animales/habitats/habitatPerro.png" id="2_lu1o0"]
+
+[resource]
+script = ExtResource("1_dhuj4")
+nombre_id = "perro"
+nombre_mostrar_es = "Perro"
+nombre_mostrar_en = "Dog"
+textura_visual = ExtResource("2_dh0vf")
+textura_silueta = ExtResource("2_06add")
+textura_habitat = ExtResource("2_lu1o0")
+categoria = "animales"
+valor_asociado = null
