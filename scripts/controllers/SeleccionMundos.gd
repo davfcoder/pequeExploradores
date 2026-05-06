@@ -1,41 +1,66 @@
 extends Control
 
-@onready var btn_colores:  Button  = $Cuadricula/BtnColores
-@onready var btn_numeros:  Button  = $Cuadricula/BtnNumeros
-@onready var btn_animales: Button  = $Cuadricula/BtnAnimales
-@onready var btn_formas:   Button  = $Cuadricula/BtnFormas
-@onready var btn_volver:   Button  = $BtnVolver
-@onready var lumi:         Node2D  = $Lumi
+@onready var btn_colores: Button = $Cuadricula/BtnColores
+@onready var btn_numeros: Button = $Cuadricula/BtnNumeros
+@onready var btn_animales: Button = $Cuadricula/BtnAnimales
+@onready var btn_formas: Button = $Cuadricula/BtnFormas
+@onready var btn_volver: Button = $BtnVolver
+@onready var lumi: Node2D = $Lumi
+@onready var titulo: Label = $Titulo
+
 var _portal_tweens: Dictionary = {}
 
+
 func _ready() -> void:
+	AudioManager.reproducir_musica_menu()
 	UIFont.aplicar_a_control(self)
 	FatigaManager.desactivar()
-	_aplicar_portales()
-	btn_colores.pressed.connect(func():  _entrar_mundo("colores"))
-	btn_numeros.pressed.connect(func():  _entrar_mundo("numeros"))
-	btn_animales.pressed.connect(func(): _entrar_mundo("animales"))
-	btn_formas.pressed.connect(func():   _entrar_mundo("formas"))
-	btn_volver.pressed.connect(_on_btn_volver_pressed)
-	UIFont.estilizar_boton_volver(btn_volver, "Salir")
-	lumi.hablar("¿A qué mundo vamos a jugar hoy?")
-	GameState.modo_bilingue_cambiado.connect(_on_idioma_cambiado)
 
-func _on_idioma_cambiado(activo: bool) -> void:
-	if activo:
-		btn_colores.text  = "🎨 Colors"
-		btn_numeros.text  = "🔢 Numbers"
-		btn_animales.text = "🐾 Animals"
-		btn_formas.text   = "🔷 Shapes"
-	else:
-		btn_colores.text  = "🎨 Colores"
-		btn_numeros.text  = "🔢 Números"
-		btn_animales.text = "🐾 Animales"
-		btn_formas.text   = "🔷 Formas"
+	_aplicar_portales()
+	_actualizar_textos()
+
+	btn_colores.pressed.connect(func(): _entrar_mundo("colores"))
+	btn_numeros.pressed.connect(func(): _entrar_mundo("numeros"))
+	btn_animales.pressed.connect(func(): _entrar_mundo("animales"))
+	btn_formas.pressed.connect(func(): _entrar_mundo("formas"))
+	btn_volver.pressed.connect(_on_btn_volver_pressed)
+
+	GameState.modo_bilingue_cambiado.connect(func(_activo: bool):
+		_actualizar_textos()
+	)
+
+
+func _actualizar_textos() -> void:
+	titulo.text = Lang.t("choose_world")
+	btn_volver.text = Lang.t("back")
+
+	_estilizar_titulo()
+	UIFont.estilizar_boton_volver(btn_volver, Lang.t("back"))
+
+	if lumi:
+		lumi.hablar(Lang.t("lumi_select_world"))
+
+
+func _estilizar_titulo() -> void:
+	var settings := LabelSettings.new()
+	settings.font = UIFont.font
+	settings.font_size = 58
+	settings.font_color = Color("#fff4c7")
+	settings.outline_size = 14
+	settings.outline_color = Color("#25415e")
+	settings.shadow_size = 8
+	settings.shadow_color = Color(0, 0, 0, 0.35)
+	settings.shadow_offset = Vector2(3, 5)
+
+	titulo.label_settings = settings
+	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
 
 func _entrar_mundo(nombre: String) -> void:
 	GameState.mundo_actual = nombre
+	_detener_todos_los_tweens_portal()
 	get_tree().change_scene_to_file("res://scenes/levels/NivelBase.tscn")
+
 
 func _aplicar_portales() -> void:
 	_configurar_boton_portal(btn_colores, "res://assets/images/portales/portalColores.png")
@@ -64,39 +89,15 @@ func _configurar_boton_portal(btn: Button, ruta_textura: String) -> void:
 	if ResourceLoader.exists(ruta_textura):
 		var tex: Texture2D = load(ruta_textura)
 
-		# Onda luminosa 1.
-		var glow_1 := TextureRect.new()
-		glow_1.name = "Glow1"
-		glow_1.texture = tex
-		glow_1.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-		glow_1.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		glow_1.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		glow_1.modulate = Color(1, 0.95, 0.25, 0.0)
-		glow_1.visible = false
-		glow_1.pivot_offset = btn.custom_minimum_size / 2.0
+		var glow_1 := _crear_portal_texture(tex, "Glow1", Color(1, 0.95, 0.25, 0.0), false)
 		btn.add_child(glow_1)
 		glow_1.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
-		# Onda luminosa 2.
-		var glow_2 := TextureRect.new()
-		glow_2.name = "Glow2"
-		glow_2.texture = tex
-		glow_2.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-		glow_2.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		glow_2.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		glow_2.modulate = Color(0.25, 0.85, 1.0, 0.0)
-		glow_2.visible = false
-		glow_2.pivot_offset = btn.custom_minimum_size / 2.0
+		var glow_2 := _crear_portal_texture(tex, "Glow2", Color(0.25, 0.85, 1.0, 0.0), false)
 		btn.add_child(glow_2)
 		glow_2.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
-		# Sombra fija.
-		var sombra := TextureRect.new()
-		sombra.texture = tex
-		sombra.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-		sombra.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		sombra.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		sombra.modulate = Color(0, 0, 0, 0.35)
+		var sombra := _crear_portal_texture(tex, "Sombra", Color(0, 0, 0, 0.35), true)
 		btn.add_child(sombra)
 		sombra.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		sombra.offset_left = 8
@@ -104,13 +105,7 @@ func _configurar_boton_portal(btn: Button, ruta_textura: String) -> void:
 		sombra.offset_right = 8
 		sombra.offset_bottom = 10
 
-		# Portal real.
-		var img := TextureRect.new()
-		img.name = "PortalImg"
-		img.texture = tex
-		img.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
-		img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var img := _crear_portal_texture(tex, "PortalImg", Color.WHITE, true)
 		btn.add_child(img)
 		img.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	else:
@@ -136,6 +131,19 @@ func _configurar_boton_portal(btn: Button, ruta_textura: String) -> void:
 		var tween := btn.create_tween()
 		tween.tween_property(btn, "scale", Vector2(1.06, 1.06), 0.08)
 	)
+
+
+func _crear_portal_texture(tex: Texture2D, nombre: String, color: Color, visible_inicial: bool) -> TextureRect:
+	var texture_rect := TextureRect.new()
+	texture_rect.name = nombre
+	texture_rect.texture = tex
+	texture_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	texture_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	texture_rect.modulate = color
+	texture_rect.visible = visible_inicial
+	texture_rect.pivot_offset = Vector2(135, 110)
+	return texture_rect
 
 func _iniciar_hover_portal(btn: Button) -> void:
 	_detener_tweens_portal(btn)
@@ -201,7 +209,6 @@ func _crear_onda_portal(glow: TextureRect, color_base: Color, delay: float) -> T
 
 	tween.tween_property(glow, "scale", Vector2(1.18, 1.18), 0.85).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_property(glow, "modulate:a", 0.0, 0.85)
-
 	tween.tween_interval(0.05)
 
 	return tween
@@ -219,5 +226,12 @@ func _detener_tweens_portal(btn: Button) -> void:
 
 	_portal_tweens.erase(btn)
 
+
+func _detener_todos_los_tweens_portal() -> void:
+	for btn in _portal_tweens.keys():
+		_detener_tweens_portal(btn)
+
+
 func _on_btn_volver_pressed() -> void:
+	_detener_todos_los_tweens_portal()
 	get_tree().change_scene_to_file("res://scenes/menus/MenuPrincipal.tscn")

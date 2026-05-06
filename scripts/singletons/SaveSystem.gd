@@ -7,11 +7,13 @@ func _ready() -> void:
 
 func guardar() -> void:
 	var data: Dictionary = {
-		"modo_bilingue": GameState.modo_bilingue_comprado,
+		"bilingue_desbloqueado": GameState.bilingue_desbloqueado,
 		"idioma":        GameState.idioma_actual,
 		"estrellas":     GameState.estrellas_totales,
 		"tiempo":        GameState.tiempo_total_segundos,
-		"progreso":      GameState.progreso_mundos
+		"progreso":      GameState.progreso_mundos,
+		"musica_activa": GameState.musica_activa,
+		"pantalla_completa": GameState.pantalla_completa
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file:
@@ -32,7 +34,7 @@ func cargar() -> void:
 	if not data is Dictionary:
 		return
 
-	GameState.modo_bilingue_comprado = bool(data.get("modo_bilingue", false))
+	GameState.bilingue_desbloqueado = bool(data.get("bilingue_desbloqueado", data.get("modo_bilingue", false)))
 	GameState.idioma_actual = str(data.get("idioma", "es"))
 	GameState.estrellas_totales = int(data.get("estrellas", 0))
 	GameState.tiempo_total_segundos = float(data.get("tiempo", 0.0))
@@ -47,12 +49,19 @@ func cargar() -> void:
 					progreso_default[mundo][key] = progreso_cargado[mundo][key]
 
 	GameState.progreso_mundos = progreso_default
+	GameState.musica_activa = bool(data.get("musica_activa", true))
+	GameState.pantalla_completa = bool(data.get("pantalla_completa", false))
+
+	if GameState.idioma_actual == "en" and not GameState.bilingue_desbloqueado:
+		GameState.idioma_actual = "es"
 
 func borrar() -> void:
 	if FileAccess.file_exists(SAVE_PATH):
 		DirAccess.remove_absolute(SAVE_PATH)
 
 	GameState.reiniciar_progreso()
-	GameState.modo_bilingue_comprado = false
+	GameState.bilingue_desbloqueado = false
 	GameState.idioma_actual = "es"
 	GameState.mundo_actual = "colores"
+	GameState.musica_activa = true
+	GameState.pantalla_completa = false

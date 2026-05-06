@@ -52,5 +52,9 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Para Padres"
 
+[node name="BtnConfiguracion" type="Button" parent="ContenedorPrincipal" unique_id=1984802740]
+layout_mode = 2
+text = "Configuración"
+
 [node name="Lumi" parent="." unique_id=1879676224 instance=ExtResource("1_v6gu7")]
 position = Vector2(135, 570)

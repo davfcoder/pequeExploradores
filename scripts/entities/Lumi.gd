@@ -15,30 +15,23 @@ func _ready() -> void:
 	animador.animation_finished.connect(_on_animacion_terminada)
 
 func _aplicar_estilo_globo() -> void:
-	globo_texto.custom_minimum_size = Vector2(460, 0)
+	globo_texto.custom_minimum_size = Vector2(520, 0)
 	globo_texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	globo_texto.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	globo_texto.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
-	# Quitar fondo/borde anterior.
 	var empty := StyleBoxEmpty.new()
 	globo_texto.add_theme_stylebox_override("normal", empty)
 
 	var settings := LabelSettings.new()
 	settings.font = UIFont.font
-	settings.font_size = 42
-	settings.font_color = Color("#25415e")
-	settings.outline_size = 10
-	settings.outline_color = Color.WHITE
-	settings.shadow_size = 6
-	settings.shadow_color = Color(0, 0, 0, 0.22)
-	settings.shadow_offset = Vector2(3, 4)
-
-	globo_texto.label_settings = settings
-
-	var ruta_fuente := "res://assets/fonts/Chunky Playful.otf"
-	if ResourceLoader.exists(ruta_fuente):
-		settings.font = load(ruta_fuente)
+	settings.font_size = 40
+	settings.font_color = Color("#fff4c7")
+	settings.outline_size = 12
+	settings.outline_color = Color("#25415e")
+	settings.shadow_size = 8
+	settings.shadow_color = Color(0, 0, 0, 0.35)
+	settings.shadow_offset = Vector2(3, 5)
 
 	globo_texto.label_settings = settings
 

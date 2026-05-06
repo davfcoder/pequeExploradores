@@ -12,7 +12,9 @@ func nueva_ronda() -> void:
 
 func _mision_toca_color() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion("Toca el color: " + GameState.get_nombre_elemento(objetivo_actual))
+	emitir_instruccion(Lang.t("touch_color", {
+		"name": GameState.get_nombre_elemento(objetivo_actual)
+	}))
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -20,7 +22,7 @@ func _mision_toca_color() -> void:
 
 func _mision_encuentra_igual() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion("Encuentra el color igual a la burbuja")
+	emitir_instruccion(Lang.t("find_same_color"))
 
 	var center := _contenedor_central()
 	var vbox   := _vbox_en(center, 40)
@@ -58,7 +60,7 @@ func _mision_color_repetido() -> void:
 	var distinto: Resource  = copia[1]
 	var opciones: Array     = [objetivo_actual, objetivo_actual, distinto]
 	opciones.shuffle()
-	emitir_instruccion("Toca el color que aparece dos veces")
+	emitir_instruccion(Lang.t("touch_repeated_color"))
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -108,5 +110,5 @@ func _crear_boton_color(recurso: Resource, parent: Node) -> void:
 	btn.add_theme_color_override("font_outline_color", color.darkened(0.4))
 
 	btn.pressed.connect(func(): verificar_respuesta(recurso))
-	registrar_boton(btn)
+	registrar_boton(btn, recurso)
 	parent.add_child(btn)

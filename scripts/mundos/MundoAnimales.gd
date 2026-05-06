@@ -13,7 +13,7 @@ func nueva_ronda() -> void:
 
 func _mision_identifica_por_sonido() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion("¿Qué animal hace ese sonido? ¡Tócalo!")
+	emitir_instruccion(Lang.t("animal_sound"))
 	if objetivo_actual.audio_efecto:
 		AudioManager.reproducir_sfx(objetivo_actual.audio_efecto)
 	var center := _contenedor_central()
@@ -23,10 +23,11 @@ func _mision_identifica_por_sonido() -> void:
 
 func _mision_toca_animal() -> void:
 	var opciones := preparar_opciones(3)
-	var nombre   := GameState.get_nombre_elemento(objetivo_actual)
-	emitir_instruccion("Toca al animal: " + nombre)
+	emitir_instruccion(Lang.t("touch_animal", {
+		"name": GameState.get_nombre_elemento(objetivo_actual)
+	}))
 	var audio: AudioStream = objetivo_actual.audio_nombre_en \
-		if GameState.modo_bilingue_comprado else objetivo_actual.audio_nombre_es
+		if GameState.esta_en_ingles() else objetivo_actual.audio_nombre_es
 	if audio:
 		AudioManager.reproducir_voz(audio)
 	var center := _contenedor_central()
@@ -36,7 +37,7 @@ func _mision_toca_animal() -> void:
 
 func _mision_silueta() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion("¿A qué animal pertenece esta silueta?")
+	emitir_instruccion(Lang.t("animal_shadow"))
 
 	var center := _contenedor_central()
 	var vbox := _vbox_en(center, 35)
@@ -118,14 +119,14 @@ func _crear_boton_animal(recurso: Resource, parent: Node) -> void:
 		btn.add_child(img)
 
 	btn.pressed.connect(func(): verificar_respuesta(recurso))
-	registrar_boton(btn)
+	registrar_boton(btn, recurso)
 	parent.add_child(btn)
 
 func _mision_asociar_habitat() -> void:
 	var opciones := preparar_opciones(3)
-
-	var nombre := GameState.get_nombre_elemento(objetivo_actual)
-	emitir_instruccion("¿Dónde vive " + nombre + "?")
+	emitir_instruccion(Lang.t("animal_habitat", {
+		"name": GameState.get_nombre_elemento(objetivo_actual)
+	}))
 
 	var center := _contenedor_central()
 	var vbox := _vbox_en(center, 35)
@@ -236,120 +237,5 @@ func _crear_boton_habitat_imagen(recurso: Resource, parent: Node) -> void:
 		verificar_respuesta(recurso)
 	)
 
-	registrar_boton(btn)
+	registrar_boton(btn, recurso)
 	parent.add_child(btn)
-
-
-func _crear_boton_habitat(habitat: String, parent: Node) -> void:
-	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(190, 130)
-	btn.focus_mode = Control.FOCUS_NONE
-
-	var texto := _nombre_habitat(habitat)
-	btn.text = texto
-	btn.add_theme_font_override("font", UIFont.font)
-	btn.add_theme_font_size_override("font_size", 28)
-	btn.add_theme_color_override("font_color", Color.WHITE)
-	btn.add_theme_constant_override("outline_size", 7)
-	btn.add_theme_color_override("font_outline_color", Color("#25415e"))
-
-	var color := _color_habitat(habitat)
-
-	var normal := StyleBoxFlat.new()
-	normal.bg_color = color
-	normal.corner_radius_top_left = 28
-	normal.corner_radius_top_right = 28
-	normal.corner_radius_bottom_left = 28
-	normal.corner_radius_bottom_right = 28
-	normal.border_width_bottom = 9
-	normal.border_color = color.darkened(0.35)
-	normal.shadow_color = Color(0, 0, 0, 0.22)
-	normal.shadow_size = 8
-	normal.shadow_offset = Vector2(0, 5)
-
-	var hover := normal.duplicate()
-	hover.bg_color = color.lightened(0.12)
-	hover.border_width_bottom = 5
-
-	var pressed := normal.duplicate()
-	pressed.bg_color = color.darkened(0.1)
-	pressed.border_width_bottom = 2
-
-	btn.add_theme_stylebox_override("normal", normal)
-	btn.add_theme_stylebox_override("hover", hover)
-	btn.add_theme_stylebox_override("pressed", pressed)
-	btn.add_theme_stylebox_override("disabled", normal)
-	btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-
-	btn.pressed.connect(func():
-		_verificar_habitat(habitat)
-	)
-
-	registrar_boton(btn)
-	parent.add_child(btn)
-
-
-func _verificar_habitat(habitat_seleccionado: String) -> void:
-	_set_interaccion(false)
-	FatigaManager.reiniciar()
-	_detener_recordatorio()
-
-	if habitat_seleccionado == objetivo_actual.habitat:
-		GameState.agregar_estrella(GameState.mundo_actual)
-		SaveSystem.guardar()
-		_lanzar_confeti(60)
-
-		if lumi:
-			lumi.celebrar()
-			lumi.hablar("¡Correcto!")
-
-		ronda_completada.emit(true)
-
-		await get_tree().create_timer(1.5).timeout
-		if not is_instance_valid(self):
-			return
-		_siguiente_ronda()
-	else:
-		GameState.agregar_error(GameState.mundo_actual)
-
-		if lumi:
-			lumi.hablar("Inténtalo otra vez")
-
-		ronda_completada.emit(false)
-
-		await get_tree().create_timer(1.0).timeout
-		if not is_instance_valid(self):
-			return
-
-		_set_interaccion(true)
-		_programar_recordatorio()
-
-
-func _nombre_habitat(habitat: String) -> String:
-	match habitat:
-		"casa":
-			return "🏠 Casa"
-		"granja":
-			return "🚜 Granja"
-		"selva":
-			return "🌴 Selva"
-		"bosque":
-			return "🌲 Bosque"
-		"agua":
-			return "💧 Agua"
-	return habitat.capitalize()
-
-
-func _color_habitat(habitat: String) -> Color:
-	match habitat:
-		"casa":
-			return Color("#4bc3ff")
-		"granja":
-			return Color("#ffb430")
-		"selva":
-			return Color("#5eb319")
-		"bosque":
-			return Color("#2f9e44")
-		"agua":
-			return Color("#2ec4ff")
-	return Color("#ff7eb3")

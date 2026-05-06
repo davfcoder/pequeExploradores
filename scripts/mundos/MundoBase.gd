@@ -1,7 +1,6 @@
 class_name MundoBase
 extends Control
 
-# --- Señales hacia NivelBase ---
 signal ronda_completada(correcta: bool)
 signal mundo_completado
 signal instruccion_cambiada(texto: String)
@@ -12,56 +11,47 @@ var ronda_actual: int = 0
 var objetivo_actual: Resource = null
 var recursos: Array[Resource] = []
 var lumi: Node = null
-var _recordatorio_timer: Timer
-var _ultima_instruccion: String = ""
 
 var _botones: Array[Button] = []
+var _errores_ronda: int = 0
 
-func _ready() -> void:
-	_recordatorio_timer = Timer.new()
-	_recordatorio_timer.one_shot = true
-	_recordatorio_timer.timeout.connect(_on_recordatorio_timeout)
-	add_child(_recordatorio_timer)
-	
-# ─────────────────────────────────────────
-# PUNTO DE ENTRADA — llamado por NivelBase
-# ─────────────────────────────────────────
+var _recordatorio_timer: Timer = null
+var _ultima_instruccion: String = ""
+
+
 func iniciar(recursos_mundo: Array[Resource], referencia_lumi: Node) -> void:
+	_asegurar_recordatorio_timer()
+
 	recursos = recursos_mundo
 	lumi = referencia_lumi
 	ronda_actual = 0
 	_siguiente_ronda()
 
-# ─────────────────────────────────────────
-# MÉTODOS VIRTUALES — subclases DEBEN sobreescribir
-# ─────────────────────────────────────────
 
-## Lógica específica de cada ronda. Cada mundo lo implementa.
 func nueva_ronda() -> void:
 	push_error("MundoBase: nueva_ronda() no implementado en: " + get_script().get_path())
 
-## Nombre legible del mundo para el HUD.
+
 func get_nombre_mundo() -> String:
 	push_error("MundoBase: get_nombre_mundo() no implementado en: " + get_script().get_path())
 	return ""
 
-# ─────────────────────────────────────────
-# FLUJO DE RONDAS
-# ─────────────────────────────────────────
+
 func _siguiente_ronda() -> void:
 	if ronda_actual >= RONDAS_MAXIMAS:
 		_lanzar_confeti(180)
+		_detener_recordatorio()
 		mundo_completado.emit()
 		return
-	
+
 	ronda_actual += 1
+	_errores_ronda = 0
+
 	limpiar_zona()
 	FatigaManager.reiniciar()
 	nueva_ronda()
 
-# ─────────────────────────────────────────
-# LÓGICA COMÚN DE VERIFICACIÓN
-# ─────────────────────────────────────────
+
 func verificar_respuesta(seleccionado: Resource) -> void:
 	_set_interaccion(false)
 	FatigaManager.reiniciar()
@@ -71,61 +61,97 @@ func verificar_respuesta(seleccionado: Resource) -> void:
 		GameState.agregar_estrella(GameState.mundo_actual)
 		SaveSystem.guardar()
 		_lanzar_confeti(60)
-		
+
 		if lumi:
 			lumi.celebrar()
-			lumi.hablar("¡Correcto!")
+			lumi.hablar(Lang.t("correct"))
+
 		ronda_completada.emit(true)
+
 		await get_tree().create_timer(1.5).timeout
+
 		if not is_instance_valid(self):
 			return
+
 		_siguiente_ronda()
 	else:
+		_errores_ronda += 1
 		GameState.agregar_error(GameState.mundo_actual)
-		if lumi:
-			lumi.hablar("¡Inténtalo de nuevo!")
+
+		if _errores_ronda >= 2:
+			if lumi:
+				lumi.hablar(Lang.t("hint"))
+			_resaltar_correctas()
+		else:
+			if lumi:
+				lumi.hablar(Lang.t("try_again"))
+
 		ronda_completada.emit(false)
+
 		await get_tree().create_timer(1.0).timeout
+
 		if not is_instance_valid(self):
 			return
+
 		_set_interaccion(true)
 		_programar_recordatorio()
 
-# ─────────────────────────────────────────
-# UTILIDADES PARA SUBCLASES
-# ─────────────────────────────────────────
 
-## Baraja, corta a `cantidad` y elige objetivo. Siempre llamar antes de crear botones.
 func preparar_opciones(cantidad: int) -> Array[Resource]:
 	var opciones: Array[Resource] = recursos.duplicate()
 	opciones.shuffle()
+
 	if opciones.size() > cantidad:
 		opciones = opciones.slice(0, cantidad)
+
 	objetivo_actual = opciones.pick_random()
 	return opciones
 
-## Emite la instrucción al HUD y se la dice a Lumi.
+
 func emitir_instruccion(texto: String) -> void:
+	_asegurar_recordatorio_timer()
+
 	_ultima_instruccion = texto
 	instruccion_cambiada.emit(texto)
+
 	if lumi:
 		lumi.hablar(texto)
+
 	_programar_recordatorio()
 
-## Registrar cada botón interactivo que cree la subclase.
-func registrar_boton(btn: Button) -> void:
+
+func repetir_instruccion() -> void:
+	if _ultima_instruccion == "":
+		return
+
+	if lumi:
+		lumi.hablar(_ultima_instruccion)
+
+	_programar_recordatorio()
+
+
+func registrar_boton(btn: Button, recurso: Resource = null) -> void:
 	_botones.append(btn)
 
-## Limpia todos los hijos y resetea el registro de botones.
+	if recurso != null:
+		btn.set_meta("recurso", recurso)
+
+
 func limpiar_zona() -> void:
 	_botones.clear()
+
 	for hijo in get_children():
 		hijo.queue_free()
+
+	_recordatorio_timer = null
+	_asegurar_recordatorio_timer()
+
 
 func _set_interaccion(enabled: bool) -> void:
 	for btn in _botones:
 		if is_instance_valid(btn):
 			btn.disabled = not enabled
+
 
 func _contenedor_central() -> CenterContainer:
 	var center := CenterContainer.new()
@@ -134,12 +160,14 @@ func _contenedor_central() -> CenterContainer:
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return center
 
+
 func _hbox_en(parent: Node, separacion: int = 50) -> HBoxContainer:
 	var hbox := HBoxContainer.new()
 	hbox.add_theme_constant_override("separation", separacion)
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	parent.add_child(hbox)
 	return hbox
+
 
 func _vbox_en(parent: Node, separacion: int = 30) -> VBoxContainer:
 	var vbox := VBoxContainer.new()
@@ -148,8 +176,67 @@ func _vbox_en(parent: Node, separacion: int = 30) -> VBoxContainer:
 	parent.add_child(vbox)
 	return vbox
 
+
+func _asegurar_recordatorio_timer() -> void:
+	if _recordatorio_timer != null and is_instance_valid(_recordatorio_timer):
+		return
+
+	_recordatorio_timer = Timer.new()
+	_recordatorio_timer.one_shot = true
+	_recordatorio_timer.timeout.connect(_on_recordatorio_timeout)
+	add_child(_recordatorio_timer)
+
+
+func _programar_recordatorio() -> void:
+	_asegurar_recordatorio_timer()
+
+	_recordatorio_timer.stop()
+	_recordatorio_timer.wait_time = randf_range(5.0, 8.0)
+	_recordatorio_timer.start()
+
+
+func _detener_recordatorio() -> void:
+	if _recordatorio_timer and is_instance_valid(_recordatorio_timer):
+		_recordatorio_timer.stop()
+
+
+func _on_recordatorio_timeout() -> void:
+	if _ultima_instruccion == "":
+		return
+
+	if lumi:
+		lumi.hablar(_ultima_instruccion)
+
+	_programar_recordatorio()
+
+
+func _resaltar_correctas() -> void:
+	for btn in _botones:
+		if not is_instance_valid(btn):
+			continue
+
+		if not btn.has_meta("recurso"):
+			continue
+
+		var recurso: Resource = btn.get_meta("recurso") as Resource
+
+		if recurso == objetivo_actual:
+			_animar_pista_boton(btn)
+
+
+func _animar_pista_boton(btn: Button) -> void:
+	if not is_instance_valid(btn):
+		return
+
+	var tween := btn.create_tween()
+	tween.set_loops(3)
+	tween.tween_property(btn, "scale", Vector2(1.16, 1.16), 0.18)
+	tween.tween_property(btn, "scale", Vector2.ONE, 0.18)
+
+
 func _lanzar_confeti(cantidad: int = 60) -> void:
 	var escena := get_tree().current_scene
+
 	if escena == null:
 		return
 
@@ -202,26 +289,4 @@ func _lanzar_confeti(cantidad: int = 60) -> void:
 
 	if is_instance_valid(overlay):
 		overlay.queue_free()
-
-func _programar_recordatorio() -> void:
-	if _recordatorio_timer == null:
-		return
-
-	_recordatorio_timer.stop()
-	_recordatorio_timer.wait_time = randf_range(5.0, 8.0)
-	_recordatorio_timer.start()
-
-
-func _detener_recordatorio() -> void:
-	if _recordatorio_timer:
-		_recordatorio_timer.stop()
-
-
-func _on_recordatorio_timeout() -> void:
-	if _ultima_instruccion == "":
-		return
-
-	if lumi:
-		lumi.hablar(_ultima_instruccion)
-
-	_programar_recordatorio()
+	

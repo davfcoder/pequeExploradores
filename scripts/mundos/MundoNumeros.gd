@@ -13,7 +13,7 @@ func nueva_ronda() -> void:
 func _mision_cuenta_objetos() -> void:
 	var opciones := preparar_opciones(3)
 	var cantidad := int(objetivo_actual.nombre_id)
-	emitir_instruccion("Cuenta los puntos y toca el número correcto")
+	emitir_instruccion(Lang.t("count_points"))
 
 	var center := _contenedor_central()
 	var vbox   := _vbox_en(center, 40)
@@ -24,7 +24,9 @@ func _mision_cuenta_objetos() -> void:
 
 func _mision_toca_numero() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion("Toca el número: " + GameState.get_nombre_elemento(objetivo_actual))
+	emitir_instruccion(Lang.t("touch_number", {
+		"name": GameState.get_nombre_elemento(objetivo_actual)
+	}))
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -33,7 +35,9 @@ func _mision_toca_numero() -> void:
 func _mision_tarjeta_cantidad() -> void:
 	var opciones := preparar_opciones(3)
 	var cantidad := int(objetivo_actual.nombre_id)
-	emitir_instruccion("Toca la tarjeta que tiene " + str(cantidad) + " puntos")
+	emitir_instruccion(Lang.t("touch_card_points", {
+		"count": str(cantidad)
+	}))
 
 	var center := _contenedor_central()
 	var vbox   := _vbox_en(center, 40)
@@ -101,7 +105,7 @@ func _crear_boton_numero(recurso: Resource, parent: Node) -> void:
 		btn.add_theme_color_override("font_color", Color("#25415e"))
 
 	btn.pressed.connect(func(): verificar_respuesta(recurso))
-	registrar_boton(btn)
+	registrar_boton(btn, recurso)
 	parent.add_child(btn)
 
 func _crear_tarjeta_puntos(recurso: Resource, parent: Node) -> void:
@@ -156,7 +160,7 @@ func _crear_tarjeta_puntos(recurso: Resource, parent: Node) -> void:
 	)
 
 	btn.pressed.connect(func(): verificar_respuesta(recurso))
-	registrar_boton(btn)
+	registrar_boton(btn, recurso)
 	parent.add_child(btn)
 
 func _dibujar_puntos(cantidad: int, parent: Node) -> void:

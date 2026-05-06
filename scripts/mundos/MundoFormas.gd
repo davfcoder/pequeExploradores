@@ -29,9 +29,11 @@ func nueva_ronda() -> void:
 # ── Misión 0: Toca la forma pedida ──────────────────────────────────
 func _mision_identifica_forma() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion("Toca la figura: " + GameState.get_nombre_elemento(objetivo_actual))
+	emitir_instruccion(Lang.t("touch_shape", {
+		"name": GameState.get_nombre_elemento(objetivo_actual)
+	}))
 	var audio: AudioStream = objetivo_actual.audio_nombre_en \
-		if GameState.modo_bilingue_comprado else objetivo_actual.audio_nombre_es
+		if GameState.esta_en_ingles() else objetivo_actual.audio_nombre_es
 	if audio:
 		AudioManager.reproducir_voz(audio)
 	var center := _contenedor_central()
@@ -42,7 +44,7 @@ func _mision_identifica_forma() -> void:
 # ── Misión 1: Drag & Drop — arrastra la figura a su silueta ─────────
 func _mision_drag_and_drop() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion("Arrastra la figura a su silueta ✋")
+	emitir_instruccion(Lang.t("drag_shape"))
 
 	var center := _contenedor_central()
 	var vbox := _vbox_en(center, 40)
@@ -110,8 +112,9 @@ func _mision_clasifica_forma() -> void:
 
 	opciones.shuffle()
 
-	var nombre := GameState.get_nombre_elemento(objetivo_actual)
-	emitir_instruccion("Toca las dos figuras que son: " + nombre)
+	emitir_instruccion(Lang.t("touch_two_shapes", {
+		"name": GameState.get_nombre_elemento(objetivo_actual)
+	}))
 
 	var center := _contenedor_central()
 	var hbox := _hbox_en(center, 50)
@@ -126,7 +129,7 @@ func _mision_clasifica_forma() -> void:
 			_on_forma_clasificacion_presionada(btn, es_correcto)
 		)
 
-		registrar_boton(btn)
+		registrar_boton(btn, res)
 		hbox.add_child(btn)
 	
 # ── Helpers ──────────────────────────────────────────────────────────
@@ -134,7 +137,7 @@ func _mision_clasifica_forma() -> void:
 func _crear_boton_forma(recurso: Resource, parent: Node) -> void:
 	var btn := _crear_boton_forma_raw(recurso)
 	btn.pressed.connect(func(): verificar_respuesta(recurso))
-	registrar_boton(btn)
+	registrar_boton(btn, recurso)
 	parent.add_child(btn)
 
 func _crear_boton_forma_raw(recurso: Resource) -> Button:
@@ -215,7 +218,7 @@ func _crear_figura_arrastrable(recurso: Resource, parent: Node, zona_drop: Panel
 				_iniciar_drag(recurso, btn, zona_drop)
 	)
 
-	registrar_boton(btn)
+	registrar_boton(btn, recurso)
 	parent.add_child(btn)
 
 func _input(event: InputEvent) -> void:
@@ -329,7 +332,7 @@ func _soltar_drag() -> void:
 	_limpiar_drag()
 
 	if lumi:
-		lumi.hablar("Llévala hasta la silueta")
+		lumi.hablar(Lang.t("drag_to_shadow"))
 
 
 func _devolver_nodo_arrastrado(
@@ -367,18 +370,6 @@ func _devolver_nodo_arrastrado(
 	nodo.disabled = false
 	nodo.mouse_filter = Control.MOUSE_FILTER_STOP
 	nodo.show()
-
-
-func _restaurar_nodo_arrastrado(nodo: Control, z_original: int) -> void:
-	if not is_instance_valid(nodo):
-		return
-
-	nodo.top_level = false
-	nodo.z_index = z_original
-	nodo.mouse_filter = Control.MOUSE_FILTER_STOP
-	nodo.disabled = false
-	nodo.show()
-
 
 func _limpiar_drag() -> void:
 	_drag_recurso = null
@@ -445,11 +436,17 @@ func _fallar_clasificacion() -> void:
 
 	_clasificacion_bloqueada = true
 	_detener_recordatorio()
-
+	
+	_errores_ronda += 1
 	GameState.agregar_error(GameState.mundo_actual)
 
-	if lumi:
-		lumi.hablar("Inténtalo de nuevo")
+	if _errores_ronda >= 2:
+		if lumi:
+			lumi.hablar(Lang.t("shape_classification_hint"))
+		_resaltar_correctas()
+	else:
+		if lumi:
+			lumi.hablar(Lang.t("try_again"))
 
 	ronda_completada.emit(false)
 
