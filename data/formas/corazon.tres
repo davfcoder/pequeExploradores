@@ -1,6 +1,8 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://td5vl52k14pn"]
 
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_8jc2p"]
+[ext_resource type="AudioStream" uid="uid://beos2ydyxsm6i" path="res://assets/audio/es/voz/corazon.wav" id="1_o1457"]
+[ext_resource type="AudioStream" uid="uid://iobrh4hl5kr6" path="res://assets/audio/en/voz/corazon.wav" id="1_yjxjx"]
 [ext_resource type="Texture2D" uid="uid://c0r0wyu1pn7af" path="res://assets/images/formas/corazon.png" id="2_nuvpg"]
 
 [resource]
@@ -9,5 +11,7 @@ nombre_id = "corazon"
 nombre_mostrar_es = "Corazón"
 nombre_mostrar_en = "Heart"
 textura_visual = ExtResource("2_nuvpg")
+audio_nombre_es = ExtResource("1_o1457")
+audio_nombre_en = ExtResource("1_yjxjx")
 categoria = "formas"
 valor_asociado = null

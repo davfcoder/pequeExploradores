@@ -1,6 +1,8 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://gctff7qs07ue"]
 
+[ext_resource type="AudioStream" uid="uid://byxhjeidgwegs" path="res://assets/audio/en/voz/cuadrado.wav" id="1_0ttvd"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_hms3d"]
+[ext_resource type="AudioStream" uid="uid://c3bi5e2ilujwm" path="res://assets/audio/es/voz/cuadrado.wav" id="1_iwn0u"]
 [ext_resource type="Texture2D" uid="uid://dl6gk8x4qomkh" path="res://assets/images/formas/cuadrado.png" id="2_pnwgq"]
 
 [resource]
@@ -9,5 +11,7 @@ nombre_id = "cuadrado"
 nombre_mostrar_es = "Cuadrado"
 nombre_mostrar_en = "Square"
 textura_visual = ExtResource("2_pnwgq")
+audio_nombre_es = ExtResource("1_iwn0u")
+audio_nombre_en = ExtResource("1_0ttvd")
 categoria = "formas"
 valor_asociado = null

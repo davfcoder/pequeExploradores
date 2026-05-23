@@ -1,9 +1,12 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://dr05ie6uq0h4l"]
 
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_e85wv"]
+[ext_resource type="AudioStream" uid="uid://lto6ferftkjs" path="res://assets/audio/sfx/lobo.wav" id="1_muyl1"]
 [ext_resource type="Texture2D" uid="uid://fdxpgxfmtto5" path="res://assets/images/animales/siluetas/siluetaLobo.png" id="2_6kspw"]
 [ext_resource type="Texture2D" uid="uid://ydi062q7thwn" path="res://assets/images/animales/lobo.png" id="2_765o0"]
 [ext_resource type="Texture2D" uid="uid://b7wxc30grehax" path="res://assets/images/animales/habitats/habitatLobo.png" id="2_b5p4k"]
+[ext_resource type="AudioStream" uid="uid://m5226anudxpv" path="res://assets/audio/es/voz/lobo.wav" id="2_esku8"]
+[ext_resource type="AudioStream" uid="uid://di76cf7tsb7w2" path="res://assets/audio/en/voz/lobo.wav" id="2_st0ux"]
 
 [resource]
 script = ExtResource("1_e85wv")
@@ -13,5 +16,8 @@ nombre_mostrar_en = "Wolf"
 textura_visual = ExtResource("2_765o0")
 textura_silueta = ExtResource("2_6kspw")
 textura_habitat = ExtResource("2_b5p4k")
+audio_nombre_es = ExtResource("2_esku8")
+audio_nombre_en = ExtResource("2_st0ux")
+audio_efecto = ExtResource("1_muyl1")
 categoria = "animales"
 valor_asociado = null

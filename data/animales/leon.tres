@@ -1,8 +1,11 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://beeyauw81h6jn"]
 
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_4pan1"]
+[ext_resource type="AudioStream" uid="uid://b25x3cwusxel" path="res://assets/audio/sfx/leon.wav" id="1_5xsc2"]
+[ext_resource type="AudioStream" uid="uid://bndh2jnswpt83" path="res://assets/audio/en/voz/leon.wav" id="2_dvx3e"]
 [ext_resource type="Texture2D" uid="uid://dwgvku11tsr1v" path="res://assets/images/animales/habitats/habitatLeon.png" id="2_i6d6e"]
 [ext_resource type="Texture2D" uid="uid://b6h10je6tntf6" path="res://assets/images/animales/leon.png" id="2_kpn2u"]
+[ext_resource type="AudioStream" uid="uid://dfp0w533ibamu" path="res://assets/audio/es/voz/leon.wav" id="2_pq7jn"]
 [ext_resource type="Texture2D" uid="uid://05dndjyitis7" path="res://assets/images/animales/siluetas/siluetaLeon.png" id="2_w8cvk"]
 
 [resource]
@@ -13,5 +16,8 @@ nombre_mostrar_en = "Lion"
 textura_visual = ExtResource("2_kpn2u")
 textura_silueta = ExtResource("2_w8cvk")
 textura_habitat = ExtResource("2_i6d6e")
+audio_nombre_es = ExtResource("2_pq7jn")
+audio_nombre_en = ExtResource("2_dvx3e")
+audio_efecto = ExtResource("1_5xsc2")
 categoria = "animales"
 valor_asociado = null

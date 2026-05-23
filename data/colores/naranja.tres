@@ -1,10 +1,14 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://bwqdgke5aj67r"]
 
+[ext_resource type="AudioStream" uid="uid://bn6dxbb3p0shc" path="res://assets/audio/es/voz/naranja.wav" id="1_77tm4"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_ciaxo"]
+[ext_resource type="AudioStream" uid="uid://d3cs4uywwwnld" path="res://assets/audio/en/voz/naranja.wav" id="1_viyyb"]
 
 [resource]
 script = ExtResource("1_ciaxo")
 nombre_id = "naranja"
 nombre_mostrar_es = "Naranja"
 nombre_mostrar_en = "Orange"
+audio_nombre_es = ExtResource("1_77tm4")
+audio_nombre_en = ExtResource("1_viyyb")
 valor_asociado = Color(0.98, 0.52, 0.1, 1)

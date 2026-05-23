@@ -17,9 +17,9 @@ var _errores_ronda: int = 0
 
 var _recordatorio_timer: Timer = null
 var _ultima_instruccion: String = ""
+var _ultimos_audios: Array[AudioStream] = []
 
-
-func iniciar(recursos_mundo: Array[Resource], referencia_lumi: Node) -> void:
+func iniciar(recursos_mundo: Array[Resource], referencia_lumi: Node) -> void: 
 	_asegurar_recordatorio_timer()
 
 	recursos = recursos_mundo
@@ -39,8 +39,20 @@ func get_nombre_mundo() -> String:
 
 func _siguiente_ronda() -> void:
 	if ronda_actual >= RONDAS_MAXIMAS:
-		_lanzar_confeti(180)
+		_lanzar_confeti(195)
 		_detener_recordatorio()
+		FatigaManager.desactivar()
+	
+		var sfx_fin = AudioManager.obtener_stream_sfx("sonido_correcto_ronda")
+		if sfx_fin: AudioManager.reproducir_sfx(sfx_fin)
+
+		if lumi:
+			lumi.celebrar()
+			var audios: Array[AudioStream] = []
+			var audio_logro = AudioManager.obtener_stream_voz("lo_lograste")
+			if audio_logro: audios.append(audio_logro)
+			lumi.hablar(Lang.t("completed"), audios)
+
 		mundo_completado.emit()
 		return
 
@@ -48,7 +60,6 @@ func _siguiente_ronda() -> void:
 	_errores_ronda = 0
 
 	limpiar_zona()
-	FatigaManager.reiniciar()
 	nueva_ronda()
 
 
@@ -62,40 +73,51 @@ func verificar_respuesta(seleccionado: Resource) -> void:
 		SaveSystem.guardar()
 		_lanzar_confeti(60)
 
+		var sfx_acierto = AudioManager.obtener_stream_sfx("correcto")
+		if sfx_acierto: AudioManager.reproducir_sfx(sfx_acierto)
+
 		if lumi:
 			lumi.celebrar()
-			lumi.hablar(Lang.t("correct"))
+			var exitos = ["correcto", "muy_bien", "excelente"]
+			var audios: Array[AudioStream] = []
+			var audio_exito = AudioManager.obtener_stream_voz(exitos.pick_random())
+			if audio_exito: audios.append(audio_exito)
+			lumi.hablar(Lang.t("correct"), audios)
 
 		ronda_completada.emit(true)
-
 		await get_tree().create_timer(1.5).timeout
-
-		if not is_instance_valid(self):
-			return
-
+		if not is_instance_valid(self): return
 		_siguiente_ronda()
 	else:
+		var sfx_error = AudioManager.obtener_stream_sfx("incorrecto")
+		if sfx_error: AudioManager.reproducir_sfx(sfx_error)
+
 		_errores_ronda += 1
 		GameState.agregar_error(GameState.mundo_actual)
 
 		if _errores_ronda >= 2:
 			if lumi:
-				lumi.hablar(Lang.t("hint"))
+				var pistas = ["mira_con_atencion", "pista_visual"]
+				var audios: Array[AudioStream] = []
+				var audio_pista = AudioManager.obtener_stream_voz(pistas.pick_random())
+				if audio_pista: audios.append(audio_pista)
+				lumi.hablar(Lang.t("hint"), audios)
 			_resaltar_correctas()
 		else:
 			if lumi:
-				lumi.hablar(Lang.t("try_again"))
+				var errores = ["intenta_de_nuevo", "no_pasa_nada", "tu_puedes"]
+				var audios: Array[AudioStream] = []
+				var audio_error = AudioManager.obtener_stream_voz(errores.pick_random())
+				if audio_error: audios.append(audio_error)
+				lumi.hablar(Lang.t("try_again"), audios)
 
-		ronda_completada.emit(false)
+	ronda_completada.emit(false)
+	await get_tree().create_timer(1.0).timeout
 
-		await get_tree().create_timer(1.0).timeout
+	if not is_instance_valid(self): return
 
-		if not is_instance_valid(self):
-			return
-
-		_set_interaccion(true)
-		_programar_recordatorio()
-
+	_set_interaccion(true)
+	_programar_recordatorio()
 
 func preparar_opciones(cantidad: int) -> Array[Resource]:
 	var opciones: Array[Resource] = recursos.duplicate()
@@ -107,28 +129,31 @@ func preparar_opciones(cantidad: int) -> Array[Resource]:
 	objetivo_actual = opciones.pick_random()
 	return opciones
 
-
-func emitir_instruccion(texto: String) -> void:
+func emitir_instruccion(texto: String, audios: Array[AudioStream] = []) -> void:
 	_asegurar_recordatorio_timer()
 
 	_ultima_instruccion = texto
+	_ultimos_audios = audios
 	instruccion_cambiada.emit(texto)
 
 	if lumi:
-		lumi.hablar(texto)
+		lumi.hablar(texto, audios)
 
 	_programar_recordatorio()
-
 
 func repetir_instruccion() -> void:
-	if _ultima_instruccion == "":
-		return
-
+	if _ultima_instruccion == "": return
+	
 	if lumi:
-		lumi.hablar(_ultima_instruccion)
+		var audios: Array[AudioStream] = []
+		var audio_repetir = AudioManager.obtener_stream_voz("repetir_instruccion")
+		if audio_repetir:
+			audios.append(audio_repetir)
+			
+		audios.append_array(_ultimos_audios)
+		lumi.hablar(_ultima_instruccion, audios)
 
 	_programar_recordatorio()
-
 
 func registrar_boton(btn: Button, recurso: Resource = null) -> void:
 	_botones.append(btn)
@@ -191,7 +216,7 @@ func _programar_recordatorio() -> void:
 	_asegurar_recordatorio_timer()
 
 	_recordatorio_timer.stop()
-	_recordatorio_timer.wait_time = randf_range(5.0, 8.0)
+	_recordatorio_timer.wait_time = randf_range(7.0, 10.0)
 	_recordatorio_timer.start()
 
 
@@ -201,14 +226,15 @@ func _detener_recordatorio() -> void:
 
 
 func _on_recordatorio_timeout() -> void:
-	if _ultima_instruccion == "":
-		return
+	if _ultima_instruccion == "": return
 
 	if lumi:
-		lumi.hablar(_ultima_instruccion)
-
+		var audios: Array[AudioStream] = []
+		var audio_repetir = AudioManager.obtener_stream_voz("repetir_instruccion")
+		if audio_repetir: audios.append(audio_repetir)
+		audios.append_array(_ultimos_audios)
+		lumi.hablar(_ultima_instruccion, audios)
 	_programar_recordatorio()
-
 
 func _resaltar_correctas() -> void:
 	for btn in _botones:

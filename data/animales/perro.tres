@@ -1,7 +1,10 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://g0u6of151xq7"]
 
+[ext_resource type="AudioStream" uid="uid://e5be14hpexb8" path="res://assets/audio/sfx/perro.wav" id="1_4un61"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_dhuj4"]
+[ext_resource type="AudioStream" uid="uid://q6txkj5bxabl" path="res://assets/audio/en/voz/perro.wav" id="2_3bgmv"]
 [ext_resource type="Texture2D" uid="uid://dv7slsy64dblk" path="res://assets/images/animales/siluetas/siluetaPerro.png" id="2_06add"]
+[ext_resource type="AudioStream" uid="uid://bd5l7ai0mq1j" path="res://assets/audio/es/voz/perro.wav" id="2_7llyi"]
 [ext_resource type="Texture2D" uid="uid://cil0a1dgs8rqx" path="res://assets/images/animales/perro.png" id="2_dh0vf"]
 [ext_resource type="Texture2D" uid="uid://j4qgdvhgx0j0" path="res://assets/images/animales/habitats/habitatPerro.png" id="2_lu1o0"]
 
@@ -13,5 +16,8 @@ nombre_mostrar_en = "Dog"
 textura_visual = ExtResource("2_dh0vf")
 textura_silueta = ExtResource("2_06add")
 textura_habitat = ExtResource("2_lu1o0")
+audio_nombre_es = ExtResource("2_7llyi")
+audio_nombre_en = ExtResource("2_3bgmv")
+audio_efecto = ExtResource("1_4un61")
 categoria = "animales"
 valor_asociado = null

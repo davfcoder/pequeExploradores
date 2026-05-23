@@ -1,6 +1,8 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://yhukvp0sa4r3"]
 
+[ext_resource type="AudioStream" uid="uid://wlsq6msg38td" path="res://assets/audio/es/voz/circulo.wav" id="1_1a1mi"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_bue26"]
+[ext_resource type="AudioStream" uid="uid://erkxpjhelht2" path="res://assets/audio/en/voz/circulo.wav" id="1_sbju2"]
 [ext_resource type="Texture2D" uid="uid://dbra1wl02kfoa" path="res://assets/images/formas/circulo.png" id="2_b06ca"]
 
 [resource]
@@ -9,5 +11,7 @@ nombre_id = "circulo"
 nombre_mostrar_es = "Círculo"
 nombre_mostrar_en = "Circle"
 textura_visual = ExtResource("2_b06ca")
+audio_nombre_es = ExtResource("1_1a1mi")
+audio_nombre_en = ExtResource("1_sbju2")
 categoria = "formas"
 valor_asociado = null

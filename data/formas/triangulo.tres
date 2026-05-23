@@ -1,6 +1,8 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://dvhcswj087rg6"]
 
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_hqdr6"]
+[ext_resource type="AudioStream" uid="uid://dwxu3luv21rws" path="res://assets/audio/en/voz/triangulo.wav" id="1_jwpdx"]
+[ext_resource type="AudioStream" uid="uid://3qa6aek0gwhp" path="res://assets/audio/es/voz/triangulo.wav" id="1_n2dlh"]
 [ext_resource type="Texture2D" uid="uid://dcrpnhr1g87xi" path="res://assets/images/formas/triangulo.png" id="2_hm02q"]
 
 [resource]
@@ -9,5 +11,7 @@ nombre_id = "triangulo"
 nombre_mostrar_es = "Triángulo"
 nombre_mostrar_en = "Triangle"
 textura_visual = ExtResource("2_hm02q")
+audio_nombre_es = ExtResource("1_n2dlh")
+audio_nombre_en = ExtResource("1_jwpdx")
 categoria = "formas"
 valor_asociado = null

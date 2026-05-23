@@ -1,6 +1,8 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://4otpyoy8iyfv"]
 
+[ext_resource type="AudioStream" uid="uid://copkeoywduvy8" path="res://assets/audio/es/voz/nueve.wav" id="1_d8cb3"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_gbrke"]
+[ext_resource type="AudioStream" uid="uid://bnvx7ckud8uch" path="res://assets/audio/en/voz/nueve.wav" id="1_iksro"]
 [ext_resource type="Texture2D" uid="uid://bsl5pwi6kc306" path="res://assets/images/numeros/9.png" id="2_od8fx"]
 
 [resource]
@@ -9,5 +11,7 @@ nombre_id = "9"
 nombre_mostrar_es = "Nueve"
 nombre_mostrar_en = "Nine"
 textura_visual = ExtResource("2_od8fx")
+audio_nombre_es = ExtResource("1_d8cb3")
+audio_nombre_en = ExtResource("1_iksro")
 categoria = "numeros"
 valor_asociado = null

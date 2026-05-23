@@ -29,13 +29,12 @@ func nueva_ronda() -> void:
 # ── Misión 0: Toca la forma pedida ──────────────────────────────────
 func _mision_identifica_forma() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("touch_shape", {
-		"name": GameState.get_nombre_elemento(objetivo_actual)
-	}))
-	var audio: AudioStream = objetivo_actual.audio_nombre_en \
-		if GameState.esta_en_ingles() else objetivo_actual.audio_nombre_es
-	if audio:
-		AudioManager.reproducir_voz(audio)
+	var texto = Lang.t("touch_shape", {"name": GameState.get_nombre_elemento(objetivo_actual)})
+	
+	var audio_instruccion = AudioManager.obtener_stream_voz("toca_figura")
+	var audio_elemento = objetivo_actual.get_audio_nombre()
+	emitir_instruccion(texto, [audio_instruccion, audio_elemento])
+	
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -44,7 +43,10 @@ func _mision_identifica_forma() -> void:
 # ── Misión 1: Drag & Drop — arrastra la figura a su silueta ─────────
 func _mision_drag_and_drop() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("drag_shape"))
+	
+	var texto = Lang.t("drag_shape")
+	var audio_instruccion = AudioManager.obtener_stream_voz("arrastra_figura")
+	emitir_instruccion(texto, [audio_instruccion])
 
 	var center := _contenedor_central()
 	var vbox := _vbox_en(center, 40)
@@ -112,9 +114,12 @@ func _mision_clasifica_forma() -> void:
 
 	opciones.shuffle()
 
-	emitir_instruccion(Lang.t("touch_two_shapes", {
-		"name": GameState.get_nombre_elemento(objetivo_actual)
-	}))
+	# --- IMPLEMENTACIÓN DE AUDIO CONCATENADO ---
+	var texto = Lang.t("touch_two_shapes", {"name": GameState.get_nombre_elemento(objetivo_actual)})
+	var audio_instruccion = AudioManager.obtener_stream_voz("toca_dos_figuras")
+	var audio_elemento = objetivo_actual.get_audio_nombre()
+	emitir_instruccion(texto, [audio_instruccion, audio_elemento])
+	# -------------------------------------------
 
 	var center := _contenedor_central()
 	var hbox := _hbox_en(center, 50)
@@ -131,7 +136,7 @@ func _mision_clasifica_forma() -> void:
 
 		registrar_boton(btn, res)
 		hbox.add_child(btn)
-	
+
 # ── Helpers ──────────────────────────────────────────────────────────
 
 func _crear_boton_forma(recurso: Resource, parent: Node) -> void:
@@ -332,7 +337,11 @@ func _soltar_drag() -> void:
 	_limpiar_drag()
 
 	if lumi:
-		lumi.hablar(Lang.t("drag_to_shadow"))
+			var audios: Array[AudioStream] = []
+			var audio = AudioManager.obtener_stream_voz("llevala_silueta")
+			if audio:
+				audios.append(audio)
+			lumi.hablar(Lang.t("drag_to_shadow"), audios)
 
 
 func _devolver_nodo_arrastrado(
@@ -436,17 +445,27 @@ func _fallar_clasificacion() -> void:
 
 	_clasificacion_bloqueada = true
 	_detener_recordatorio()
+	var sfx_error = AudioManager.obtener_stream_sfx("incorrecto")
+	if sfx_error: AudioManager.reproducir_sfx(sfx_error)
 	
 	_errores_ronda += 1
 	GameState.agregar_error(GameState.mundo_actual)
 
 	if _errores_ronda >= 2:
 		if lumi:
-			lumi.hablar(Lang.t("shape_classification_hint"))
+			var pistas = ["mira_con_atencion", "pista_visual"]
+			var audios: Array[AudioStream] = []
+			var audio_pista = AudioManager.obtener_stream_voz(pistas.pick_random())
+			if audio_pista: audios.append(audio_pista)
+			lumi.hablar(Lang.t("shape_classification_hint"), audios)
 		_resaltar_correctas()
 	else:
 		if lumi:
-			lumi.hablar(Lang.t("try_again"))
+			var errores = ["intenta_de_nuevo", "no_pasa_nada", "tu_puedes"]
+			var audios: Array[AudioStream] = []
+			var audio_error = AudioManager.obtener_stream_voz(errores.pick_random())
+			if audio_error: audios.append(audio_error)
+			lumi.hablar(Lang.t("try_again"), audios)
 
 	ronda_completada.emit(false)
 

@@ -1,9 +1,12 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://cuots1twigl4h"]
 
+[ext_resource type="AudioStream" uid="uid://diiwebyi47crb" path="res://assets/audio/sfx/pajaro.wav" id="1_4pro3"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_c3qyb"]
 [ext_resource type="Texture2D" uid="uid://bpu0q7nw4t3ew" path="res://assets/images/animales/pajaro.png" id="2_1fta8"]
 [ext_resource type="Texture2D" uid="uid://dkhxic1v2rlx6" path="res://assets/images/animales/siluetas/siluetaPajaro.png" id="2_h1kxh"]
 [ext_resource type="Texture2D" uid="uid://1w8xchi71x01" path="res://assets/images/animales/habitats/habitatPajaro.png" id="2_no7qy"]
+[ext_resource type="AudioStream" uid="uid://dqa3hr7hdd0ie" path="res://assets/audio/es/voz/pajaro.wav" id="2_p6u14"]
+[ext_resource type="AudioStream" uid="uid://dmwwrx275kvp8" path="res://assets/audio/en/voz/pajaro.wav" id="2_qfns5"]
 
 [resource]
 script = ExtResource("1_c3qyb")
@@ -13,5 +16,8 @@ nombre_mostrar_en = "Bird"
 textura_visual = ExtResource("2_1fta8")
 textura_silueta = ExtResource("2_h1kxh")
 textura_habitat = ExtResource("2_no7qy")
+audio_nombre_es = ExtResource("2_p6u14")
+audio_nombre_en = ExtResource("2_qfns5")
+audio_efecto = ExtResource("1_4pro3")
 categoria = "animales"
 valor_asociado = null

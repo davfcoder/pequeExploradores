@@ -1,5 +1,7 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://4x5d13tcxsck"]
 
+[ext_resource type="AudioStream" uid="uid://dns3kqh437pm" path="res://assets/audio/en/voz/rectangulo.wav" id="1_axmta"]
+[ext_resource type="AudioStream" uid="uid://bg27lkki0siwu" path="res://assets/audio/es/voz/rectangulo.wav" id="1_fwmkf"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_kksj1"]
 [ext_resource type="Texture2D" uid="uid://cyahqqim84b1s" path="res://assets/images/formas/rectangulo.png" id="2_bbml2"]
 
@@ -9,5 +11,7 @@ nombre_id = "rectangulo"
 nombre_mostrar_es = "Rectángulo"
 nombre_mostrar_en = "Rectangle"
 textura_visual = ExtResource("2_bbml2")
+audio_nombre_es = ExtResource("1_fwmkf")
+audio_nombre_en = ExtResource("1_axmta")
 categoria = "formas"
 valor_asociado = null

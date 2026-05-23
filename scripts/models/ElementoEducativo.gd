@@ -13,6 +13,12 @@ class_name ElementoEducativo
 @export var audio_nombre_en: AudioStream
 @export var audio_efecto: AudioStream
 
-@export_enum("colores","numeros","animales","formas") var categoria: String = "colores"
+@export_enum("colores","numeros","animales","formas")
+var categoria: String = "colores"
 
 @export var valor_asociado: Variant = null
+
+func get_audio_nombre() -> AudioStream:
+	if GameState.idioma_actual == "en" and audio_nombre_en != null:
+		return audio_nombre_en
+	return audio_nombre_es

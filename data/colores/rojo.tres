@@ -1,5 +1,7 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://1ithmsbfr474"]
 
+[ext_resource type="AudioStream" uid="uid://dnodone2jgn7b" path="res://assets/audio/es/voz/rojo.wav" id="1_hot6g"]
+[ext_resource type="AudioStream" uid="uid://cca3jci7lsnme" path="res://assets/audio/en/voz/rojo.wav" id="1_riegl"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_ylghr"]
 
 [resource]
@@ -7,4 +9,6 @@ script = ExtResource("1_ylghr")
 nombre_id = "rojo"
 nombre_mostrar_es = "Rojo"
 nombre_mostrar_en = "Red"
+audio_nombre_es = ExtResource("1_hot6g")
+audio_nombre_en = ExtResource("1_riegl")
 valor_asociado = Color(0.95, 0.18, 0.18, 1)

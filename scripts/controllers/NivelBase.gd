@@ -110,7 +110,7 @@ func _aplicar_fondo_mundo() -> void:
 	fondo_textura.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	fondo_textura.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	fondo_textura.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	fondo_textura.self_modulate = Color("#7e7e7e")
+	fondo_textura.self_modulate = Color("7e7e7e6e")
 
 func _cargar_recursos(carpeta: String) -> Array[Resource]:
 	var resultado: Array[Resource] = []

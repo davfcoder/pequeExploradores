@@ -12,9 +12,12 @@ func nueva_ronda() -> void:
 
 func _mision_toca_color() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("touch_color", {
-		"name": GameState.get_nombre_elemento(objetivo_actual)
-	}))
+	
+	var texto = Lang.t("touch_color", {"name": GameState.get_nombre_elemento(objetivo_actual)})
+	var audio_instruccion = AudioManager.obtener_stream_voz("toca_color")
+	var audio_elemento = objetivo_actual.get_audio_nombre()
+	emitir_instruccion(texto, [audio_instruccion, audio_elemento])
+
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -22,12 +25,14 @@ func _mision_toca_color() -> void:
 
 func _mision_encuentra_igual() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("find_same_color"))
+	
+	var texto = Lang.t("find_same_color")
+	var audio_instruccion = AudioManager.obtener_stream_voz("encuentra_color_igual")
+	emitir_instruccion(texto, [audio_instruccion])
 
 	var center := _contenedor_central()
 	var vbox   := _vbox_en(center, 40)
 
-	# Burbuja grande y redonda con sombra
 	var panel := Panel.new()
 	panel.custom_minimum_size      = Vector2(160, 160)
 	panel.size_flags_horizontal    = Control.SIZE_SHRINK_CENTER
@@ -60,7 +65,11 @@ func _mision_color_repetido() -> void:
 	var distinto: Resource  = copia[1]
 	var opciones: Array     = [objetivo_actual, objetivo_actual, distinto]
 	opciones.shuffle()
-	emitir_instruccion(Lang.t("touch_repeated_color"))
+	
+	var texto = Lang.t("touch_repeated_color")
+	var audio_instruccion = AudioManager.obtener_stream_voz("toca_color_repetido")
+	emitir_instruccion(texto, [audio_instruccion])
+
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -72,7 +81,6 @@ func _crear_boton_color(recurso: Resource, parent: Node) -> void:
 
 	var color: Color = recurso.valor_asociado
 
-	# Efecto 3D: borde inferior más oscuro
 	var style := StyleBoxFlat.new()
 	style.bg_color                   = color
 	style.corner_radius_top_left     = 32

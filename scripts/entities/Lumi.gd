@@ -44,12 +44,18 @@ func reproducir_animacion(nombre: String) -> void:
 	if animador.has_animation(nombre):
 		animador.play(nombre)
 
-func hablar(texto: String, duracion: float = 3.5) -> void:
+func hablar(texto: String, audios: Array[AudioStream] = [], duracion: float = 3.5) -> void:
 	if _tween_globo and _tween_globo.is_valid():
 		_tween_globo.kill()
+		
 	globo_texto.text = texto
 	globo_texto.show()
 	reproducir_animacion("hablar")
+	
+	# Reproducimos la voz si nos enviaron audios
+	if audios.size() > 0:
+		AudioManager.reproducir_cola_voz(audios)
+		
 	_tween_globo = create_tween()
 	_tween_globo.tween_interval(duracion)
 	_tween_globo.tween_callback(globo_texto.hide)

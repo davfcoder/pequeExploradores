@@ -1,8 +1,11 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://du84qxbt76dnw"]
 
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_gubsa"]
+[ext_resource type="AudioStream" uid="uid://cwfrahqydakmb" path="res://assets/audio/sfx/elefante.wav" id="1_tv588"]
+[ext_resource type="AudioStream" uid="uid://codihrfca71xn" path="res://assets/audio/en/voz/elefante.wav" id="2_33cbt"]
 [ext_resource type="Texture2D" uid="uid://dqfc6fnyrddjx" path="res://assets/images/animales/habitats/habitatElefante.png" id="2_a5ugp"]
 [ext_resource type="Texture2D" uid="uid://bj8srgd85scqi" path="res://assets/images/animales/siluetas/siluetaElefante.png" id="2_m3i41"]
+[ext_resource type="AudioStream" uid="uid://b665t4vxn77rr" path="res://assets/audio/es/voz/elefante.wav" id="2_nj3er"]
 [ext_resource type="Texture2D" uid="uid://bpo4i600atk01" path="res://assets/images/animales/elefante.png" id="2_scm04"]
 
 [resource]
@@ -13,5 +16,8 @@ nombre_mostrar_en = "Elephant"
 textura_visual = ExtResource("2_scm04")
 textura_silueta = ExtResource("2_m3i41")
 textura_habitat = ExtResource("2_a5ugp")
+audio_nombre_es = ExtResource("2_nj3er")
+audio_nombre_en = ExtResource("2_33cbt")
+audio_efecto = ExtResource("1_tv588")
 categoria = "animales"
 valor_asociado = null

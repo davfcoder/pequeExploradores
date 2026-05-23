@@ -1,9 +1,12 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://kwdrg2dnj686"]
 
+[ext_resource type="AudioStream" uid="uid://b7i0kwdgesqen" path="res://assets/audio/sfx/serpiente.wav" id="1_8w5gn"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_730mc"]
 [ext_resource type="Texture2D" uid="uid://ioeuuxkq1hp6" path="res://assets/images/animales/siluetas/siluetaSerpiente.png" id="2_7p4xn"]
+[ext_resource type="AudioStream" uid="uid://bgqjewdmgdbl4" path="res://assets/audio/en/voz/serpiente.wav" id="2_dm8w8"]
 [ext_resource type="Texture2D" uid="uid://ccs0iyddoems0" path="res://assets/images/animales/serpiente.png" id="2_hdb1q"]
 [ext_resource type="Texture2D" uid="uid://gg2kywsuyqne" path="res://assets/images/animales/habitats/habitatSerpiente.png" id="2_jdp8h"]
+[ext_resource type="AudioStream" uid="uid://yaytaripjdjy" path="res://assets/audio/es/voz/serpiente.wav" id="2_mrbga"]
 
 [resource]
 script = ExtResource("1_730mc")
@@ -13,5 +16,8 @@ nombre_mostrar_en = "Snake"
 textura_visual = ExtResource("2_hdb1q")
 textura_silueta = ExtResource("2_7p4xn")
 textura_habitat = ExtResource("2_jdp8h")
+audio_nombre_es = ExtResource("2_mrbga")
+audio_nombre_en = ExtResource("2_dm8w8")
+audio_efecto = ExtResource("1_8w5gn")
 categoria = "animales"
 valor_asociado = null

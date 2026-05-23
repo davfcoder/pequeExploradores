@@ -12,7 +12,7 @@ var _btn_musica_popup: Button
 var _btn_idioma_popup: Button
 var _btn_fullscreen_popup: Button
 var _btn_cerrar_popup: Button
-
+var _timer_recordatorio: Timer = null
 
 func _ready() -> void:
 	AudioManager.reproducir_musica_menu()
@@ -32,8 +32,17 @@ func _ready() -> void:
 	_crear_popup_configuracion()
 
 	if lumi:
-		lumi.hablar(Lang.t("lumi_menu"))
-
+		var audios: Array[AudioStream] = []
+		var audio_voz = AudioManager.obtener_stream_voz("saludo_menu")
+		if audio_voz:
+			audios.append(audio_voz)
+		lumi.hablar(Lang.t("lumi_menu"), audios)
+	_timer_recordatorio = Timer.new() 
+	_timer_recordatorio.wait_time = 12.0 # Se repetirá cada 12 segundos 
+	_timer_recordatorio.one_shot = false 
+	_timer_recordatorio.timeout.connect(_on_recordatorio_timeout) 
+	add_child(_timer_recordatorio) 
+	_timer_recordatorio.start()
 
 func _actualizar_textos() -> void:
 	btn_jugar.text = Lang.t("play")
@@ -223,3 +232,15 @@ func _abrir_configuracion() -> void:
 	_actualizar_textos()
 	_actualizar_textos_configuracion()
 	_popup_config.popup_centered(_popup_config.size)
+
+func _on_recordatorio_timeout() -> void:
+	# Si el panel de configuración está abierto, no interrumpimos al usuario
+	if _popup_config and _popup_config.visible:
+		return
+		
+	if lumi:
+		var audios: Array[AudioStream] = []
+		var audio_voz = AudioManager.obtener_stream_voz("saludo_menu")
+		if audio_voz: 
+			audios.append(audio_voz)
+		lumi.hablar(Lang.t("lumi_menu"), audios)

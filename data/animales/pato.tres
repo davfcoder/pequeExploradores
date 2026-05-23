@@ -1,8 +1,11 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://b8xfjv2d887e1"]
 
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_3nukg"]
+[ext_resource type="AudioStream" uid="uid://1yguojgwn1pc" path="res://assets/audio/sfx/pato.wav" id="1_kpu5y"]
 [ext_resource type="Texture2D" uid="uid://cbsia3vre2oei" path="res://assets/images/animales/habitats/habitatPato.png" id="2_5kc7s"]
+[ext_resource type="AudioStream" uid="uid://bxxo1k0sbjfhy" path="res://assets/audio/es/voz/pato.wav" id="2_cjtis"]
 [ext_resource type="Texture2D" uid="uid://bmt4rhiptljna" path="res://assets/images/animales/pato.png" id="2_dno1g"]
+[ext_resource type="AudioStream" uid="uid://b523am4xlc3i0" path="res://assets/audio/en/voz/pato.wav" id="2_ub2n3"]
 [ext_resource type="Texture2D" uid="uid://cwog77juday6g" path="res://assets/images/animales/siluetas/siluetaPato.png" id="2_weg6j"]
 
 [resource]
@@ -13,5 +16,8 @@ nombre_mostrar_en = "Duck"
 textura_visual = ExtResource("2_dno1g")
 textura_silueta = ExtResource("2_weg6j")
 textura_habitat = ExtResource("2_5kc7s")
+audio_nombre_es = ExtResource("2_cjtis")
+audio_nombre_en = ExtResource("2_ub2n3")
+audio_efecto = ExtResource("1_kpu5y")
 categoria = "animales"
 valor_asociado = null

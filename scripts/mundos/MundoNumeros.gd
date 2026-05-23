@@ -13,7 +13,10 @@ func nueva_ronda() -> void:
 func _mision_cuenta_objetos() -> void:
 	var opciones := preparar_opciones(3)
 	var cantidad := int(objetivo_actual.nombre_id)
-	emitir_instruccion(Lang.t("count_points"))
+	
+	var texto = Lang.t("count_points")
+	var audio_instruccion = AudioManager.obtener_stream_voz("cuenta_puntos")
+	emitir_instruccion(texto, [audio_instruccion])
 
 	var center := _contenedor_central()
 	var vbox   := _vbox_en(center, 40)
@@ -24,9 +27,12 @@ func _mision_cuenta_objetos() -> void:
 
 func _mision_toca_numero() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("touch_number", {
-		"name": GameState.get_nombre_elemento(objetivo_actual)
-	}))
+	
+	var texto = Lang.t("touch_number", {"name": GameState.get_nombre_elemento(objetivo_actual)})
+	var audio_instruccion = AudioManager.obtener_stream_voz("toca_numero")
+	var audio_elemento = objetivo_actual.get_audio_nombre()
+	emitir_instruccion(texto, [audio_instruccion, audio_elemento])
+	
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -35,14 +41,26 @@ func _mision_toca_numero() -> void:
 func _mision_tarjeta_cantidad() -> void:
 	var opciones := preparar_opciones(3)
 	var cantidad := int(objetivo_actual.nombre_id)
-	emitir_instruccion(Lang.t("touch_card_points", {
-		"count": str(cantidad)
-	}))
+	
+	var texto = Lang.t("touch_card_points", {"count": str(cantidad)})
+	
+	# --- Concatenación de: "Toca tarjeta" + "Cinco" + "Puntos" ---
+	var audios: Array[AudioStream] = []
+	var audio_parte1 = AudioManager.obtener_stream_voz("toca_tarjeta_que_tiene")
+	var audio_numero = objetivo_actual.get_audio_nombre()
+	
+	var string_puntos = "punto" if cantidad == 1 else "puntos"
+	var audio_parte3 = AudioManager.obtener_stream_voz(string_puntos)
+	
+	if audio_parte1: audios.append(audio_parte1)
+	if audio_numero: audios.append(audio_numero)
+	if audio_parte3: audios.append(audio_parte3)
+	
+	emitir_instruccion(texto, audios)
 
 	var center := _contenedor_central()
 	var vbox   := _vbox_en(center, 40)
 
-	# Número grande de referencia con estilo
 	var numero_ref := TextureRect.new()
 	numero_ref.custom_minimum_size = Vector2(160, 160)
 	numero_ref.size_flags_horizontal = Control.SIZE_SHRINK_CENTER

@@ -13,9 +13,17 @@ func nueva_ronda() -> void:
 
 func _mision_identifica_por_sonido() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("animal_sound"))
+	var texto = Lang.t("animal_sound")
+	
+	var audios: Array[AudioStream] = []
+	var audio_instruccion = AudioManager.obtener_stream_voz("animal_sonido")
+	if audio_instruccion:
+		audios.append(audio_instruccion)
 	if objetivo_actual.audio_efecto:
-		AudioManager.reproducir_sfx(objetivo_actual.audio_efecto)
+		audios.append(objetivo_actual.audio_efecto)
+		
+	emitir_instruccion(texto, audios)
+	
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -23,13 +31,18 @@ func _mision_identifica_por_sonido() -> void:
 
 func _mision_toca_animal() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("touch_animal", {
-		"name": GameState.get_nombre_elemento(objetivo_actual)
-	}))
-	var audio: AudioStream = objetivo_actual.audio_nombre_en \
-		if GameState.esta_en_ingles() else objetivo_actual.audio_nombre_es
-	if audio:
-		AudioManager.reproducir_voz(audio)
+	var texto = Lang.t("touch_animal", {"name": GameState.get_nombre_elemento(objetivo_actual)})
+	
+	var audios: Array[AudioStream] = []
+	var audio_instruccion = AudioManager.obtener_stream_voz("toca_animal")
+	if audio_instruccion:
+		audios.append(audio_instruccion)
+	var audio_elemento = objetivo_actual.get_audio_nombre()
+	if audio_elemento:
+		audios.append(audio_elemento)
+		
+	emitir_instruccion(texto, audios)
+	
 	var center := _contenedor_central()
 	var hbox   := _hbox_en(center, 50)
 	for res in opciones:
@@ -37,7 +50,14 @@ func _mision_toca_animal() -> void:
 
 func _mision_silueta() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("animal_shadow"))
+	var texto = Lang.t("animal_shadow")
+	
+	var audios: Array[AudioStream] = []
+	var audio_instruccion = AudioManager.obtener_stream_voz("animal_silueta")
+	if audio_instruccion:
+		audios.append(audio_instruccion)
+	
+	emitir_instruccion(texto, audios)
 
 	var center := _contenedor_central()
 	var vbox := _vbox_en(center, 35)
@@ -118,15 +138,27 @@ func _crear_boton_animal(recurso: Resource, parent: Node) -> void:
 		img.mouse_filter        = Control.MOUSE_FILTER_IGNORE
 		btn.add_child(img)
 
-	btn.pressed.connect(func(): verificar_respuesta(recurso))
+	btn.pressed.connect(func():
+		if recurso.audio_efecto:
+			AudioManager.reproducir_sfx_animal(recurso.audio_efecto)
+			verificar_respuesta(recurso)
+	)
 	registrar_boton(btn, recurso)
 	parent.add_child(btn)
 
 func _mision_asociar_habitat() -> void:
 	var opciones := preparar_opciones(3)
-	emitir_instruccion(Lang.t("animal_habitat", {
-		"name": GameState.get_nombre_elemento(objetivo_actual)
-	}))
+	var texto = Lang.t("animal_habitat", {"name": GameState.get_nombre_elemento(objetivo_actual)})
+	
+	var audios: Array[AudioStream] = []
+	var audio_instruccion = AudioManager.obtener_stream_voz("animal_habitat")
+	if audio_instruccion:
+		audios.append(audio_instruccion)
+	var audio_elemento = objetivo_actual.get_audio_nombre()
+	if audio_elemento:
+		audios.append(audio_elemento)
+		
+	emitir_instruccion(texto, audios)
 
 	var center := _contenedor_central()
 	var vbox := _vbox_en(center, 35)

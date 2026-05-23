@@ -1,5 +1,7 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://bsl3kmtmhqpnc"]
 
+[ext_resource type="AudioStream" uid="uid://dex3op1md25ny" path="res://assets/audio/es/voz/siete.wav" id="1_21i6t"]
+[ext_resource type="AudioStream" uid="uid://dgrj5tqfrva0e" path="res://assets/audio/en/voz/siete.wav" id="1_52m0i"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_ed232"]
 [ext_resource type="Texture2D" uid="uid://cvjy24t7l5l8j" path="res://assets/images/numeros/7.png" id="2_1o8gy"]
 
@@ -9,5 +11,7 @@ nombre_id = "7"
 nombre_mostrar_es = "Siete"
 nombre_mostrar_en = "Seven"
 textura_visual = ExtResource("2_1o8gy")
+audio_nombre_es = ExtResource("1_21i6t")
+audio_nombre_en = ExtResource("1_52m0i")
 categoria = "numeros"
 valor_asociado = null

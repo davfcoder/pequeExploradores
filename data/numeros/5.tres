@@ -1,5 +1,7 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://dnqwiwlm3hskr"]
 
+[ext_resource type="AudioStream" uid="uid://cxe56py35blmd" path="res://assets/audio/es/voz/cinco.wav" id="1_3c3ys"]
+[ext_resource type="AudioStream" uid="uid://bjyvxxixwxehq" path="res://assets/audio/en/voz/cinco.wav" id="1_qhned"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_r236f"]
 [ext_resource type="Texture2D" uid="uid://cyxeynol4mgyf" path="res://assets/images/numeros/5.png" id="2_qnn7f"]
 
@@ -9,5 +11,7 @@ nombre_id = "5"
 nombre_mostrar_es = "Cinco"
 nombre_mostrar_en = "Five"
 textura_visual = ExtResource("2_qnn7f")
+audio_nombre_es = ExtResource("1_3c3ys")
+audio_nombre_en = ExtResource("1_qhned")
 categoria = "numeros"
 valor_asociado = null

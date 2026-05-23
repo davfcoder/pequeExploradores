@@ -9,7 +9,7 @@ extends Control
 @onready var titulo: Label = $Titulo
 
 var _portal_tweens: Dictionary = {}
-
+var _timer_recordatorio: Timer = null
 
 func _ready() -> void:
 	AudioManager.reproducir_musica_menu()
@@ -28,7 +28,12 @@ func _ready() -> void:
 	GameState.modo_bilingue_cambiado.connect(func(_activo: bool):
 		_actualizar_textos()
 	)
-
+	_timer_recordatorio = Timer.new()
+	_timer_recordatorio.wait_time = 10.0 # Se repetirá cada 10 segundos
+	_timer_recordatorio.one_shot = false
+	_timer_recordatorio.timeout.connect(_on_recordatorio_timeout)
+	add_child(_timer_recordatorio)
+	_timer_recordatorio.start()
 
 func _actualizar_textos() -> void:
 	titulo.text = Lang.t("choose_world")
@@ -38,7 +43,11 @@ func _actualizar_textos() -> void:
 	UIFont.estilizar_boton_volver(btn_volver, Lang.t("back"))
 
 	if lumi:
-		lumi.hablar(Lang.t("lumi_select_world"))
+		var audios: Array[AudioStream] = []
+		var audio_voz = AudioManager.obtener_stream_voz("seleccion_mundo")
+		if audio_voz:
+			audios.append(audio_voz)
+		lumi.hablar(Lang.t("lumi_select_world"), audios)
 
 
 func _estilizar_titulo() -> void:
@@ -235,3 +244,11 @@ func _detener_todos_los_tweens_portal() -> void:
 func _on_btn_volver_pressed() -> void:
 	_detener_todos_los_tweens_portal()
 	get_tree().change_scene_to_file("res://scenes/menus/MenuPrincipal.tscn")
+
+func _on_recordatorio_timeout() -> void:
+	if lumi:
+		var audios: Array[AudioStream] = []
+		var audio_voz = AudioManager.obtener_stream_voz("seleccion_mundo")
+		if audio_voz: 
+			audios.append(audio_voz)
+		lumi.hablar(Lang.t("lumi_select_world"), audios)

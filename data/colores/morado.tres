@@ -1,10 +1,14 @@
 [gd_resource type="Resource" script_class="ElementoEducativo" format=3 uid="uid://cucdti3nw11e"]
 
+[ext_resource type="AudioStream" uid="uid://bvceix6dy5u3m" path="res://assets/audio/es/voz/morado.wav" id="1_64j5s"]
 [ext_resource type="Script" uid="uid://p6m7i0bq70h1" path="res://scripts/models/ElementoEducativo.gd" id="1_bh8jk"]
+[ext_resource type="AudioStream" uid="uid://bj3clvulbfjfq" path="res://assets/audio/en/voz/morado.wav" id="1_meqf3"]
 
 [resource]
 script = ExtResource("1_bh8jk")
 nombre_id = "morado"
 nombre_mostrar_es = "Morado"
 nombre_mostrar_en = "Purple"
+audio_nombre_es = ExtResource("1_64j5s")
+audio_nombre_en = ExtResource("1_meqf3")
 valor_asociado = Color(0.58, 0.12, 0.82, 1)
