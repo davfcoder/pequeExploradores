@@ -22,6 +22,9 @@ func _ready() -> void:
 	aplicar_estilo_titulo()
 
 	aplicar_estilo_boton(btn_jugar, Color("#ffb430"))
+	btn_jugar.custom_minimum_size = Vector2(420, 120)
+	btn_jugar.add_theme_font_size_override("font_size", 72)
+
 	aplicar_estilo_boton(btn_padres, Color("#4bc3ff"))
 	aplicar_estilo_boton(btn_configuracion, Color("#5eb319"))
 

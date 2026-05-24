@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://doufgmbdjm5bq" path="res://scripts/controllers/NivelBase.gd" id="1_w7qmx"]
 [ext_resource type="PackedScene" uid="uid://cne061xj7t0vt" path="res://scenes/entities/Lumi.tscn" id="1_xjbic"]
-[ext_resource type="Texture2D" uid="uid://b7sxvgov01t0v" path="res://assets/fondo_colores.png" id="5_i0wsr"]
 
 [node name="NivelBase" type="Control" unique_id=983590949]
 layout_mode = 3
@@ -20,7 +19,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("5_i0wsr")
 expand_mode = 1
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=867317497]
